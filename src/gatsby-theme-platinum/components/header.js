@@ -44,6 +44,7 @@ const SiteHeader = () => {
         <Link
           to="/"
           sx={{
+            variant: "styles.TextLogoLink",
             textDecoration: "none",
             color: "inherit",
             flex: "0 0 auto",
@@ -59,7 +60,7 @@ const SiteHeader = () => {
         </Link>
         <Flex as="nav" sx={{ flex: "row nowrap" }}>
           {menuLinks.map((link, i) =>
-            link.type === "internal" ? (
+            link.type === "internal" || link.type === null ? (
               <Link to={link.link} sx={{ variant: "styles.NavLink" }} key={i}>
                 {link.name}
               </Link>
