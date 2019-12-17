@@ -1,9 +1,9 @@
 {
   "name": "gatsby-starter-recipe-blog",
-  "description": "A basic implemention of gatsby-theme-platinum",
   "version": "0.1.0",
   "author": "RMP <rogermparent@gmail.com>",
   "dependencies": {
+    "@arrempee/gatsby-plugin-collections": "^2.0.0",
     "@arrempee/gatsby-plugin-taxonomies": "^2.0.0",
     "gatsby": "^2.18.5",
     "gatsby-theme-platinum": "^0.6.1",
