@@ -1,14 +1,43 @@
 /** @jsx jsx */
-import { jsx, Container } from "theme-ui"
+import { jsx, Container, Flex } from "theme-ui"
 import React from "react"
 import { graphql, Link } from "gatsby"
 import { Layout } from "gatsby-theme-platinum"
 import { MDXRenderer } from "gatsby-plugin-mdx"
+import Image from "gatsby-image"
+
+const Yields = ({ yields }) => {
+  return (
+    <div
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        flexFlow: "row nowrap",
+      }}
+    >
+      <span sx={{ mr: 2 }}>Yield: </span>
+      {yields.length > 1 ? (
+        <span>
+          {yields.map((yieldSetting, i) => (
+            <div>
+              {yieldSetting.quantity} {yieldSetting.unit}
+            </div>
+          ))}
+        </span>
+      ) : (
+        <span>
+          {yields[0].quantity} {yields[0].unit}
+        </span>
+      )}
+    </div>
+  )
+}
 
 const CompactList = ({ sx, children, ...props }) => (
   <ul
     sx={{
-      paddingLeft: 3,
+      pl: 0,
+      listStyle: "none",
       ...sx,
     }}
     {...props}
@@ -17,23 +46,57 @@ const CompactList = ({ sx, children, ...props }) => (
   </ul>
 )
 
-const IngredientList = ({ ingredientPagePath, ingredients }) => {
-  return (
-    <CompactList>
-      {ingredients.map((ingredient, i) => (
-        <li key={i}>
+const IngredientListItem = ({ ingredientPagePath, ingredient }) => {
+  switch (ingredient.type) {
+    case "heading":
+      return (
+        <li sx={{ listStyle: "none" }}>
+          <h3
+            sx={{
+              borderBottom: "1px solid gray",
+              pb: 1,
+              pl: 1,
+              mx: 1,
+              my: 2,
+            }}
+          >
+            {ingredient.text}
+          </h3>
+        </li>
+      )
+    case "ingredient":
+    default:
+      return (
+        <li
+          sx={{
+            m: 0,
+          }}
+        >
           <Link
             to={`/${ingredientPagePath}/${ingredient.ingredientSlug}`}
             sx={{
               display: "inline-block",
-              p: [null, null, 1],
+              p: 2,
               verticalAlign: "middle",
+              width: "100%",
             }}
           >
-            {ingredient.amount} {ingredient.unit}{" "}
-            {ingredient.label || ingredient.ingredient}
+            {ingredient.label}
           </Link>
         </li>
+      )
+  }
+}
+
+const IngredientList = ({ ingredientPagePath, ingredients }) => {
+  return (
+    <CompactList sx={{ my: 1 }}>
+      {ingredients.map((ingredient, i) => (
+        <IngredientListItem
+          key={i}
+          ingredientPagePath={ingredientPagePath}
+          ingredient={ingredient}
+        />
       ))}
     </CompactList>
   )
@@ -44,7 +107,7 @@ const TagList = ({ termPagePath, terms }) => {
     <React.Fragment key={i}>
       {i !== 0 && ", "}
       <Link to={`/${termPagePath}/${term.slug}`}>
-        {term.amount} {term.unit} {term.label || term.term}
+        {term.label || term.term}
       </Link>
     </React.Fragment>
   ))
@@ -66,95 +129,49 @@ export default ({
     prep_time,
     cook_time,
     total_time,
+    ingredients,
+    image,
+    yield: yields,
   } = mdxRecipe.frontmatter
   return (
     <Layout>
-      <Container
+      <h1
         sx={{
-          display: "flex",
-          flexFlow: ["column nowrap", null, "row nowrap"],
+          textAlign: "center",
         }}
       >
-        <div>
-          <h1>{title}</h1>
-          <div>Author: {author}</div>
-          <div>
-            Source: <a href={source}>{source}</a>
-          </div>
-
-          <div>
-            <b>Categories: </b>
-            <TagList
-              terms={mdxRecipe.tags.taxonomies.categories}
-              termPagePath={categoriesTaxonomy.termPagePath}
-            />
-          </div>
-          <div>
-            <b>Methods: </b>
-            <TagList
-              terms={mdxRecipe.tags.taxonomies.methods}
-              termPagePath={methodsTaxonomy.termPagePath}
-            />
-          </div>
-          <div>
-            <b>Cuisines: </b>
-            <TagList
-              terms={mdxRecipe.tags.taxonomies.cuisines}
-              termPagePath={cuisinesTaxonomy.termPagePath}
-            />
-          </div>
-        </div>
-        <div
-          sx={{
-            pl: [null, null, 4],
-          }}
-        >
-          <h3
-            sx={{
-              textAlign: [null, null, "center"],
-            }}
-          >
-            Time
-          </h3>
-          <CompactList>
-            <li>Prep: {prep_time}</li>
-            <li>Cook: {cook_time}</li>
-            <li>Total: {total_time}</li>
-          </CompactList>
-        </div>
-      </Container>
-
-      <Container
+        {title}
+      </h1>
+      <div
         sx={{
-          maxWidth: "1080px",
-          h1: {
-            fontSize: [4],
-          },
-          h2: {
-            fontSize: [3],
-          },
-          display: "flex",
-          flexFlow: ["column nowrap", null, "row nowrap"],
-          padding: [null, null, "3em"],
+          width: "100%",
+          backgroundColor: "muted",
         }}
       >
-        <div
+        <Image fluid={image.childImageSharp.fluid} />
+      </div>
+      <Yields yields={yields} />
+      <div sx={{ p: 3, backgroundColor: "muted" }}>
+        <h2
           sx={{
-            flex: "1 0 auto",
-            fontSize: 0,
-            maxWidth: [null, null, "15rem"],
+            borderBottom: "1px solid gray",
+            my: 2,
+            pb: 2,
+            pl: 1,
           }}
         >
-          <h2>Ingredients</h2>
-          <IngredientList
-            ingredients={mdxRecipe.frontmatter.ingredients}
-            ingredientPagePath={ingredientsTaxonomy.termPagePath}
-          />
-        </div>
-        <div sx={{ flex: "2 1 auto" }}>
+          Ingredients
+        </h2>
+        <IngredientList
+          ingredientPagePath={ingredientsTaxonomy.termPagePath}
+          ingredients={ingredients}
+        />
+      </div>
+      <div sx={{ my: 4 }}>
+        <Container>
           <MDXRenderer>{mdxRecipe.body}</MDXRenderer>
-        </div>
-      </Container>
+        </Container>
+      </div>
     </Layout>
   )
 }
@@ -183,9 +200,21 @@ export const query = graphql`
         prep_time
         cook_time
         total_time
+        image {
+          childImageSharp{
+            fluid {
+              ...GatsbyImageSharpFluid
+            }
+          }
+        }
+        yield {
+          unit
+          quantity
+        }
         ingredients {
           amount
           ingredient
+          text
           label
           type
           unit

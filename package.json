@@ -5,10 +5,20 @@
   "dependencies": {
     "@arrempee/gatsby-plugin-collections": "^2.0.0",
     "@arrempee/gatsby-plugin-taxonomies": "^2.0.0",
+    "@emotion/core": "^10.0.22",
+    "format-quantity": "^0.6.0",
     "gatsby": "^2.18.5",
+    "gatsby-image": "^2.2.37",
+    "gatsby-plugin-embedded-netlify-cms": "^0.0.1",
     "gatsby-theme-platinum": "^0.6.1",
+    "netlify-cms-ui-default": "^2.7.0",
+    "netlify-cms-widget-object": "^2.3.0",
+    "numeric-quantity": "^0.5.1",
     "react": "^16.11.0",
-    "react-dom": "^16.11.0"
+    "react-dom": "^16.11.0",
+    "react-immutable-proptypes": "^2.1.0",
+    "react-select": "^3.0.8",
+    "react-sortable-hoc": "^1.10.1"
   },
   "devDependencies": {
     "prettier": "^1.19.1"

@@ -23,7 +23,7 @@ const resolveIngredientTerms = ({ node, getNode, key, options }) => {
 
   if (ingredientEntries) {
     for (const ingredientEntry of ingredientEntries) {
-      if (ingredientEntry.ingredient) {
+      if (ingredientEntry.type === "ingredient" && ingredientEntry.ingredient) {
         collectedIngredients.push(ingredientEntry.ingredient)
       }
     }
@@ -97,6 +97,7 @@ module.exports = {
     {
       resolve: `gatsby-theme-platinum`,
       options: {
+        assetPath: `static/uploads`,
         transfomerMdxContentPagesOptions: [
           {
             contentDirectory: ``,
@@ -119,6 +120,14 @@ module.exports = {
         theme_color: `#cccccc`,
         display: `minimal-ui`,
         icon: `assets/logo-512.png`, // This path is relative to the root of the site.
+      },
+    },
+    {
+      resolve: `gatsby-plugin-embedded-netlify-cms`,
+      options: {
+        enableIdentityWidget: false,
+        modulePath: `${__dirname}/src/cms/cms.js`,
+        manualInit: true,
       },
     },
   ],
