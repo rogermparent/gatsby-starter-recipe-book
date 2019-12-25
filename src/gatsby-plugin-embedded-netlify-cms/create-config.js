@@ -32,6 +32,7 @@ const config = ({ data, pageContext: { taxonomies } }) => {
         fields: [
           { label: "Image", name: "image", widget: "image" },
           { label: "Title", name: "title", widget: "string" },
+          { label: "Description", name: "description", widget: "text", required: false },
           { label: "Source", name: "source", widget: "string" },
           { label: "Author", name: "author", widget: "string" },
           { label: "Prep Time", name: "prep_time", widget: "string" },
@@ -47,26 +48,21 @@ const config = ({ data, pageContext: { taxonomies } }) => {
           {
             label: "Cuisines",
             name: "cuisines",
-            widget: "select",
+            widget: "create-select",
             multiple: true,
             options: taxonomies.cuisines
           },
           {
             label: "Cooking Methods",
             name: "methods",
-            widget: "select",
+            widget: "create-select",
             multiple: true,
             options: taxonomies.methods
           },
           {
             label: "Yield",
-            label_singular: "Yield",
             name: "yield",
-            widget: "list",
-            fields: [
-              { label: "Unit", name: "unit", widget: "string" },
-              { label: "Quantity", name: "quantity", widget: "string" },
-            ],
+            widget: "string",
           },
           {
             label: "Ingredients",

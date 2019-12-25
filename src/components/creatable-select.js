@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import { jsx } from "theme-ui"
 import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -7,7 +9,7 @@ import Creatable from 'react-select/creatable';
 import { reactSelectStyles } from 'netlify-cms-ui-default';
 
 function optionToString(option) {
-  return option && option.value ? option.value : null;
+  return (option && option.value) ? option.value : null;
 }
 
 function convertToOption(raw) {
@@ -26,11 +28,9 @@ function getSelectedValue({ value, options, isMultiple }) {
     }
 
     return selectedOptions
-      .map(i => options.find(o => o.value === (i.value || i)))
-      .filter(Boolean)
       .map(convertToOption);
   } else {
-    return find(options, ['value', value]) || null;
+    return convertToOption(value);
   }
 }
 
@@ -89,6 +89,7 @@ export default class SelectControl extends React.Component {
 
     return (
       <Creatable
+        sx={{zIndex: 250}}
         inputId={forID}
         value={selectedValue}
         onChange={this.handleChange}

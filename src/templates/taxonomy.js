@@ -1,30 +1,39 @@
 /** @jsx jsx */
 import { jsx, Container } from "theme-ui"
 import { graphql, Link } from "gatsby"
-import { Layout } from "gatsby-theme-platinum"
+import Layout from "../components/Layout"
+import { BigHeader } from "../components/Header"
+import PostCard from "../components/PostCard"
+import pluralize from "../utils/pluralize"
 
 export default ({
   data: {
-    taxonomy: { termPagePath, label, terms },
-  },
+    taxonomy: {
+      termPagePath,
+      label,
+      terms
+    },
+  }
 }) => {
+  const subtitle = `Taxonomy with ${terms.totalCount} term${pluralize(terms.totalCount)}.`
   return (
-    <Layout title={label}>
+    <Layout
+      title={label}
+      subtitle={subtitle}
+    >
+      <BigHeader title={label} subtitle={subtitle} />
       <Container>
-        <h1>{label}</h1>
-        <ul>
-          {terms.map(({ count, term: { label, slug } }) => (
-            <li>
-              <Link
-                sx={{
-                  fontSize: 3,
-                  p: 2,
-                  display: "inline-block",
-                }}
-                to={`${termPagePath}/${slug}`}
-              >
-                {label} ({count})
-              </Link>
+        <ul sx={{
+          listStyle: "none",
+          px: 0,
+          py: 3
+        }}>
+          {terms.edges.map(({ count, term: { label, slug } }) => (
+            <li sx={{my: 3}}>
+              <PostCard
+                title = {`${label} (${count})`}
+                link = {`${termPagePath}/${slug}`}
+              />
             </li>
           ))}
         </ul>
@@ -40,10 +49,13 @@ export const query = graphql`
       label
       termPagePath
       terms {
-        count
-        term {
-          label
-          slug
+        totalCount
+        edges {
+          count
+          term{
+            label
+            slug
+          }
         }
       }
     }

@@ -40,11 +40,16 @@ const resolveRecipeTaxonomyTerms = args =>
 module.exports = {
   siteMetadata: {
     title: `My Recipe Blog`,
+    subtitle: `A Recipe Website Example`,
     description: `A basic proof-of-concept for a Gatsby-base recipe blog, showing off complex relations between multiple types.`,
     author: `rmp`,
     // Change to your site's address, required for sitemap.xml and robots.txt file
     siteUrl: `https://gatsby-theme-platinum-demo.netlify.com`,
     menuLinks: [
+      {
+        name: `About`,
+        link: `/about`,
+      },
       {
         name: `Recipes`,
         link: `/recipes`,
@@ -72,6 +77,7 @@ module.exports = {
         taxonomies: {
           ingredients: {
             label: "Ingredients",
+            label_singular: "Ingredient",
             terms: {
               "garbanzo-beans": {
                 redirect: "chickpeas",
@@ -79,13 +85,16 @@ module.exports = {
             },
           },
           methods: {
-            label: `Cooking Methods`,
+            label: `Methods`,
+            label_singular: `Method`
           },
           cuisines: {
             label: `Cuisines`,
+            label_singular: `Cuisine`
           },
           categories: {
             label: `Categories`,
+            label_singular: `Category`
           },
         },
         resolvers: {

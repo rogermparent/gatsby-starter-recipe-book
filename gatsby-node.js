@@ -13,6 +13,8 @@ exports.createSchemaCustomization = ({ actions, schema }, pluginOptions) => {
     schema.buildObjectType({
       name: `SiteSiteMetadata`,
       fields: {
+        title: "String!",
+        subtitle: "String",
         menuLinks: "[HeaderLink]",
       },
     }),
@@ -62,9 +64,7 @@ exports.createSchemaCustomization = ({ actions, schema }, pluginOptions) => {
     schema.buildObjectType({
       name: `MdxFrontmatter`,
       fields: {
-        yield: {
-          type: `[MdxFrontmatterYield]`,
-        },
+        yield: `String`,
         ingredients: {
           type: `[MdxFrontmatterIngredient]`,
         },
@@ -97,9 +97,11 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
         nodes {
           key
           terms {
-            term {
-              slug
-              label
+            edges {
+              term {
+                slug
+                label
+              }
             }
           }
         }
@@ -110,7 +112,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   const processedTaxonomyTerms = {}
   for (const { key, terms } of data.allTaxonomy.nodes) {
-    processedTaxonomyTerms[key] = terms.map(({ term }) => term.label)
+    processedTaxonomyTerms[key] = terms.edges.map(({ term }) => term.label)
   }
 
   createPage({
