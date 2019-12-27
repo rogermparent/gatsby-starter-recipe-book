@@ -9,7 +9,8 @@ const PostList = ({ nodes }) => {
         display: "flex",
         flexFlow: "row wrap",
         listStyle: "none",
-        m: 0,
+        mx: 0,
+        my: [3, null, 0],
         px: 0,
       }}
     >

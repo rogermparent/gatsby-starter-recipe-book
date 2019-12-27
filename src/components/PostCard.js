@@ -12,7 +12,6 @@ const PostCard = ({ link, fluidImage, title, description }) => {
         height: "100%",
         display: "flex",
         flexFlow: "column nowrap",
-        maxWidth: "500px",
         m: "auto",
         transition: "all 0.4s ease",
         boxShadow: "xl",
