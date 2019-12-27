@@ -3,7 +3,7 @@ exports.createSchemaCustomization = ({ actions, schema }, pluginOptions) => {
 
   createTypes([
     schema.buildObjectType({
-      name: `HeaderLink`,
+      name: `NavLink`,
       fields: {
         name: `String!`,
         link: `String!`,
@@ -15,7 +15,9 @@ exports.createSchemaCustomization = ({ actions, schema }, pluginOptions) => {
       fields: {
         title: "String!",
         subtitle: "String",
-        menuLinks: "[HeaderLink]",
+        headerNav: "[NavLink]",
+        footerCopy: "String",
+        footerNav: "[NavLink]",
       },
     }),
     schema.buildObjectType({
@@ -64,6 +66,7 @@ exports.createSchemaCustomization = ({ actions, schema }, pluginOptions) => {
     schema.buildObjectType({
       name: `MdxFrontmatter`,
       fields: {
+        pageHeading: `String`,
         yield: `String`,
         ingredients: {
           type: `[MdxFrontmatterIngredient]`,
@@ -71,20 +74,25 @@ exports.createSchemaCustomization = ({ actions, schema }, pluginOptions) => {
         image: {
           type: `File`,
           resolve: (source, args, context, info) => {
-            const originalPath = context.defaultFieldResolver(source, args, context, info)
+            const originalPath = context.defaultFieldResolver(
+              source,
+              args,
+              context,
+              info
+            )
             const convertedPath = originalPath.replace("/uploads/", "")
             return context.nodeModel.runQuery({
-              query:{
+              query: {
                 filter: {
                   relativePath: { eq: convertedPath },
                   sourceInstanceName: { eq: "assets" },
                 },
               },
-              type: 'File',
-              firstOnly: true
+              type: "File",
+              firstOnly: true,
             })
-          }
-        }
+          },
+        },
       },
     }),
   ])
@@ -117,10 +125,12 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
 
   createPage({
     path: "/admin",
-    component: require.resolve("gatsby-plugin-embedded-netlify-cms/src/cms-page"),
+    component: require.resolve(
+      "gatsby-plugin-embedded-netlify-cms/src/cms-page"
+    ),
     context: {
       taxonomies: processedTaxonomyTerms,
-      htmlTitle: "Content Manager"
+      htmlTitle: "Content Manager",
     },
   })
 }

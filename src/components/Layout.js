@@ -1,20 +1,26 @@
 /** @jsx jsx */
-import { jsx } from "theme-ui"
-import { BaseLayout } from "gatsby-theme-platinum";
+import { jsx, Layout } from "theme-ui"
+import { Global } from "@emotion/core"
+import StyleReset from "gatsby-theme-platinum/src/utils/normalize-css"
+import React from "react"
 import Header from "./Header"
+import Footer from "./Footer"
 import SEO from "./SEO"
 
-const Layout = ({
-  children,
-  title,
-  subtitle
-}) => {
+import BaseLayout from "./base-layout"
+
+const NewBaseLayout = ({ children, title, subtitle }) => {
   return (
-    <BaseLayout>
+    <BaseLayout
+      styles={{
+        backgroundColor: "secondary",
+      }}
+    >
       <SEO title={title} />
       {children}
+      <Footer />
     </BaseLayout>
   )
 }
 
-export default Layout
+export default NewBaseLayout

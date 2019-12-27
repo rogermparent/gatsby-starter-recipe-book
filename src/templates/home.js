@@ -4,12 +4,15 @@ import { graphql, Link } from "gatsby"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import Layout from "../components/Layout"
 import HomeHeader from "../components/HomeHeader"
+import PageContainer from "../components/PageContainer"
 
 export default ({ data }) => {
   return (
     <Layout title={data.contentPage.frontmatter.title}>
       <HomeHeader />
-      <MDXRenderer>{data.contentPage.parent.body}</MDXRenderer>
+      <PageContainer maxWidth="maxContentWidth">
+        <MDXRenderer>{data.contentPage.parent.body}</MDXRenderer>
+      </PageContainer>
     </Layout>
   )
 }

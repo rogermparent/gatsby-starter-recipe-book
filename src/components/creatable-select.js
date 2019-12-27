@@ -1,36 +1,35 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui"
-import React from 'react';
-import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Map, List, fromJS } from 'immutable';
-import { find } from 'lodash';
-import Creatable from 'react-select/creatable';
-import { reactSelectStyles } from 'netlify-cms-ui-default';
+import React from "react"
+import PropTypes from "prop-types"
+import ImmutablePropTypes from "react-immutable-proptypes"
+import { Map, List, fromJS } from "immutable"
+import { find } from "lodash"
+import Creatable from "react-select/creatable"
+import { reactSelectStyles } from "netlify-cms-ui-default"
 
 function optionToString(option) {
-  return (option && option.value) ? option.value : null;
+  return option && option.value ? option.value : null
 }
 
 function convertToOption(raw) {
-  if (typeof raw === 'string') {
-    return { label: raw, value: raw };
+  if (typeof raw === "string") {
+    return { label: raw, value: raw }
   }
-  return Map.isMap(raw) ? raw.toJS() : raw;
+  return Map.isMap(raw) ? raw.toJS() : raw
 }
 
 function getSelectedValue({ value, options, isMultiple }) {
   if (isMultiple) {
-    const selectedOptions = List.isList(value) ? value.toJS() : value;
+    const selectedOptions = List.isList(value) ? value.toJS() : value
 
     if (!selectedOptions || !Array.isArray(selectedOptions)) {
-      return null;
+      return null
     }
 
-    return selectedOptions
-      .map(convertToOption);
+    return selectedOptions.map(convertToOption)
   } else {
-    return convertToOption(value);
+    return convertToOption(value)
   }
 }
 
@@ -50,46 +49,57 @@ export default class SelectControl extends React.Component {
             label: PropTypes.string.isRequired,
             value: PropTypes.string.isRequired,
           }),
-        ]),
+        ])
       ).isRequired,
     }),
-  };
+  }
 
   handleChange = selectedOption => {
-    const { onChange, field } = this.props;
-    const isMultiple = field.get('multiple', false);
+    const { onChange, field } = this.props
+    const isMultiple = field.get("multiple", false)
 
     if (Array.isArray(selectedOption)) {
       if (!isMultiple && selectedOption.length === 0) {
-        onChange(null);
+        onChange(null)
       } else {
-        onChange(fromJS(selectedOption.map(optionToString)));
+        onChange(fromJS(selectedOption.map(optionToString)))
       }
     } else {
-      onChange(optionToString(selectedOption));
+      onChange(optionToString(selectedOption))
     }
-  };
+  }
 
   render() {
-    const { field, value, forID, classNameWrapper, setActiveStyle, setInactiveStyle } = this.props;
-    const fieldOptions = field.get('options');
-    const isMultiple = field.get('multiple', false);
-    const isClearable = !field.get('required', true) || isMultiple;
+    const {
+      field,
+      value,
+      forID,
+      classNameWrapper,
+      setActiveStyle,
+      setInactiveStyle,
+    } = this.props
+    const fieldOptions = field.get("options")
+    const isMultiple = field.get("multiple", false)
+    const isClearable = !field.get("required", true) || isMultiple
 
     if (!fieldOptions) {
-      return <div>Error rendering select control for {field.get('name')}: No options</div>;
+      return (
+        <div>
+          Error rendering select control for {field.get("name")}: No options
+        </div>
+      )
     }
 
-    const options = [...fieldOptions.map(convertToOption)];
+    const options = [...fieldOptions.map(convertToOption)]
     const selectedValue = getSelectedValue({
       options,
       value,
       isMultiple,
-    });
+    })
 
     return (
       <Creatable
-        sx={{zIndex: 250}}
+        sx={{ zIndex: 250 }}
         inputId={forID}
         value={selectedValue}
         onChange={this.handleChange}
@@ -102,6 +112,6 @@ export default class SelectControl extends React.Component {
         isClearable={isClearable}
         placeholder=""
       />
-    );
+    )
   }
 }

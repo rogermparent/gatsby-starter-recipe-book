@@ -45,7 +45,7 @@ module.exports = {
     author: `rmp`,
     // Change to your site's address, required for sitemap.xml and robots.txt file
     siteUrl: `https://gatsby-theme-platinum-demo.netlify.com`,
-    menuLinks: [
+    headerNav: [
       {
         name: `About`,
         link: `/about`,
@@ -59,6 +59,8 @@ module.exports = {
         link: `/ingredients`,
       },
     ],
+    footerCopy: "Gatsby Recipe Blog Starter © 2019",
+    footerNav: [],
   },
   plugins: [
     {
@@ -86,15 +88,15 @@ module.exports = {
           },
           methods: {
             label: `Methods`,
-            label_singular: `Method`
+            label_singular: `Method`,
           },
           cuisines: {
             label: `Cuisines`,
-            label_singular: `Cuisine`
+            label_singular: `Cuisine`,
           },
           categories: {
             label: `Categories`,
-            label_singular: `Category`
+            label_singular: `Category`,
           },
         },
         resolvers: {

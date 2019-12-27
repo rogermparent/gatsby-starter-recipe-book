@@ -1,16 +1,16 @@
 /** @jsx jsx */
 import { jsx, Flex } from "theme-ui"
-import {Link, graphql, useStaticQuery} from "gatsby"
+import { Link, graphql, useStaticQuery } from "gatsby"
 import { Heading, Styled } from "@theme-ui/components"
 
-export const useHeaderMetadata = () => (
+export const useHeaderMetadata = () =>
   useStaticQuery(graphql`
     {
-      site{
-        siteMetadata{
+      site {
+        siteMetadata {
           title
           subtitle
-          menuLinks{
+          headerNav {
             name
             link
             type
@@ -19,17 +19,23 @@ export const useHeaderMetadata = () => (
       }
     }
   `).site.siteMetadata
-)
 
-export const HeaderContainer = ({children, styles}) => (
-  <header sx={{
-    backgroundColor: 'primary',
-    color: 'background',
-    textAlign: 'center',
-    px: 2,
-    overflow: "auto",
-    ...styles
-  }}>
+export const HeaderContainer = ({ children, styles }) => (
+  <header
+    sx={{
+      backgroundColor: "primary",
+      color: "background",
+      textAlign: "center",
+      mb: [null, null, null, -5],
+      pb: [null, null, null, 5],
+      px: 2,
+      overflow: "auto",
+      "@media print": {
+        display: "none",
+      },
+      ...styles,
+    }}
+  >
     {children}
   </header>
 )
@@ -40,21 +46,26 @@ export const SmallHeader = () => (
   </HeaderContainer>
 )
 
-const BigHeaderText = ({title, subtitle}) => {
+const BigHeaderText = ({ title, subtitle }) => {
   return (
-    <div sx={{
-      textAlign: 'center',
-      mt: [4, 5],
-      mb: [5, null, null, 6],
-    }}>
-      <Heading as="h1"
+    <div
+      sx={{
+        textAlign: "center",
+        mt: [4, 5],
+        mb: 5,
+      }}
+    >
+      <Heading
+        as="h1"
         sx={{
-          fontSize: 7
+          fontSize: 7,
         }}
-      >{title}</Heading>
-      {
-        subtitle &&
-        <Heading as="h2"
+      >
+        {title}
+      </Heading>
+      {subtitle && (
+        <Heading
+          as="h2"
           sx={{
             mt: 1,
             fontWeight: "lighter",
@@ -63,31 +74,30 @@ const BigHeaderText = ({title, subtitle}) => {
         >
           {subtitle}
         </Heading>
-      }
+      )}
     </div>
   )
 }
 
-export const BigHeader = ({title, subtitle}) => (
+export const BigHeader = ({ title, subtitle }) => (
   <HeaderContainer>
     <SiteNav />
     <BigHeaderText title={title} subtitle={subtitle} />
   </HeaderContainer>
 )
 
-export const Logo = ({text, image, style}) => {
-  return(
+export const Logo = ({ text, image, styles }) => {
+  return (
     <Link
-      to='/'
+      to="/"
       sx={{
-        variant: 'styles.NavLink',
-        color: 'background',
+        variant: "styles.NavLink",
+        color: "background",
         fontSize: [4, 3],
-        lineHeight: ['linkMinimum', 'normal'],
-        minHeight: ['linkMinimum', 0],
-        fontWeight: 'bold',
-        flex: '1',
-        ...style
+        lineHeight: ["linkMinimum", "normal"],
+        minHeight: ["linkMinimum", 0],
+        fontWeight: "bold",
+        ...styles,
       }}
     >
       {text}
@@ -96,9 +106,9 @@ export const Logo = ({text, image, style}) => {
 }
 
 const SiteNav = () => {
-  const {menuLinks, title} = useHeaderMetadata()
+  const { headerNav, title } = useHeaderMetadata()
 
-  return(
+  return (
     <Flex
       as="nav"
       sx={{
@@ -107,54 +117,62 @@ const SiteNav = () => {
         flexDirection: ["column", "row"],
         flexWrap: "nowrap",
         mx: "auto",
+        px: [0, 4, 0],
         lineHeight: "normal",
-        mt: [0, 1],
-        mb: [0, 2],
-        maxWidth: "maxPageWidth"
+        my: [0, 3],
+        maxWidth: "maxPageWidth",
       }}
     >
-      <Logo text={title}
-        style={{
-          textAlign: ['center', 'left'],
+      <div
+        sx={{
+          flex: 1,
+          textAlign: "left",
         }}
-      />
+      >
+        <Logo
+          text={title}
+          styles={{
+            textAlign: ["center", "left"],
+          }}
+        />
+      </div>
       <Nav
-        links={menuLinks}
+        links={headerNav}
         sx={{
           flexFlow: "row nowrap",
           justifyContent: "flex-end",
-          flex: "1"
+          flex: "1",
         }}
       />
     </Flex>
   )
 }
 
-const NavLink = ({name, link, external})=>(
-  external ?
-  <a
-    sx={{variant: "styles.NavLink"}}
-    href={link}
-  >{name}</a> :
-  <Link
-    sx={{variant: "styles.NavLink"}}
-    to={link}
-  >{name}</Link>
-)
+export const NavLink = ({ name, link, external }) =>
+  external ? (
+    <a sx={{ variant: "styles.NavLink" }} href={link}>
+      {name}
+    </a>
+  ) : (
+    <Link sx={{ variant: "styles.NavLink" }} to={link}>
+      {name}
+    </Link>
+  )
 
-export const Nav = ({links}) => (
-  <Flex sx={{
-    justifyContent: 'center',
-  }}>
-    {
-      links.map((link, i) => (
-        <NavLink
-          name={link.name}
-          link={link.link}
-          external={link.type === "external"}
-          key={i}
-        />
-      ))
-    }
+export const Nav = ({ links }) => (
+  <Flex
+    sx={{
+      justifyContent: "center",
+      flexFlow: "row wrap",
+    }}
+  >
+    {links.map((link, i) => (
+      <NavLink
+        name={link.name}
+        link={link.link}
+        external={link.type === "external"}
+        key={i}
+      />
+    ))}
   </Flex>
 )

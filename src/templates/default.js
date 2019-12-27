@@ -1,30 +1,56 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui"
+import { Heading } from "@theme-ui/components"
 import { graphql } from "gatsby"
-import { Layout } from "gatsby-theme-platinum"
+import Layout from "../components/Layout"
 import { MDXRenderer } from "gatsby-plugin-mdx"
+import { PageContainer } from "../components/PageContainer"
+import { SmallHeader } from "../components/Header"
 
-export default ({ data }) => {
+export default ({
+  data: {
+    contentPage: {
+      body,
+      frontmatter: { title, pageHeading },
+    },
+  },
+}) => {
   return (
-    <Layout title={data.contentPage.frontmatter.title}>
-      <MDXRenderer>{data.contentPage.parent.body}</MDXRenderer>
+    <Layout title={title}>
+      <SmallHeader />
+      <div
+        sx={{
+          flex: 1,
+          backgroundColor: "background",
+        }}
+      >
+        {pageHeading && (
+          <Heading
+            as="h1"
+            sx={{
+              fontSize: [6, 8],
+              textAlign: "center",
+              mt: [4],
+              mb: [3, 4],
+            }}
+          >
+            {pageHeading}
+          </Heading>
+        )}
+        <MDXRenderer>{body}</MDXRenderer>
+      </div>
     </Layout>
   )
 }
 export const query = graphql`
   query ContentPageDefaultQuery($id: String!) {
     contentPage(id: { eq: $id }) {
-      id
-      pagePath
       template
-      ... on MdxContentPage {
+      ... on IMdxContentPage {
+        body
         frontmatter {
           title
-        }
-        parent {
-          ... on Mdx {
-            body
-          }
+          pageHeading
         }
       }
     }

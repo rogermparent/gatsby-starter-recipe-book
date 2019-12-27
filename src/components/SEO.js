@@ -1,6 +1,6 @@
 import React from "react"
-import {graphql, useStaticQuery} from "gatsby"
-import {SEO} from "gatsby-theme-platinum"
+import { graphql, useStaticQuery } from "gatsby"
+import { SEO } from "gatsby-theme-platinum"
 
 function QueriedSEO({
   description,
@@ -13,10 +13,12 @@ function QueriedSEO({
   siteDescription,
   siteAuthor,
 }) {
-  const {site: {siteMetadata}} = useStaticQuery(graphql`
+  const {
+    site: { siteMetadata },
+  } = useStaticQuery(graphql`
     {
-      site{
-        siteMetadata{
+      site {
+        siteMetadata {
           title
           description
           author
@@ -33,7 +35,7 @@ function QueriedSEO({
     lang,
     meta,
     keywords,
-    title
+    title,
   })
 }
 

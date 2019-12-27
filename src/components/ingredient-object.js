@@ -1,10 +1,10 @@
 /** @jsx jsx */
-import React from 'react';
-import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import { ClassNames, css, jsx } from '@emotion/core';
-import { Map, List } from 'immutable';
-import { ObjectWidgetTopBar, lengths } from 'netlify-cms-ui-default';
+import React from "react"
+import PropTypes from "prop-types"
+import ImmutablePropTypes from "react-immutable-proptypes"
+import { ClassNames, css, jsx } from "@emotion/core"
+import { Map, List } from "immutable"
+import { ObjectWidgetTopBar, lengths } from "netlify-cms-ui-default"
 
 const styleStrings = {
   nestedObjectControl: `
@@ -18,15 +18,19 @@ const styleStrings = {
     padding: ${lengths.objectWidgetTopBarContainerPadding};
     overflow: hidden;
   `,
-};
+}
 
 export default class ObjectControl extends React.Component {
-  componentValidate = {};
+  componentValidate = {}
 
   static propTypes = {
     onChangeObject: PropTypes.func.isRequired,
     onValidateObject: PropTypes.func.isRequired,
-    value: PropTypes.oneOfType([PropTypes.node, PropTypes.object, PropTypes.bool]),
+    value: PropTypes.oneOfType([
+      PropTypes.node,
+      PropTypes.object,
+      PropTypes.bool,
+    ]),
     field: PropTypes.object,
     forID: PropTypes.string,
     classNameWrapper: PropTypes.string.isRequired,
@@ -36,17 +40,17 @@ export default class ObjectControl extends React.Component {
     resolveWidget: PropTypes.func.isRequired,
     clearFieldErrors: PropTypes.func.isRequired,
     fieldsErrors: ImmutablePropTypes.map.isRequired,
-  };
+  }
 
   static defaultProps = {
     value: Map(),
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       collapsed: false,
-    };
+    }
   }
 
   /*
@@ -56,18 +60,18 @@ export default class ObjectControl extends React.Component {
    * to override this.
    */
   shouldComponentUpdate() {
-    return true;
+    return true
   }
 
   validate = () => {
-    const { field } = this.props;
-    let fields = field.get('field') || field.get('fields');
-    fields = List.isList(fields) ? fields : List([fields]);
+    const { field } = this.props
+    let fields = field.get("field") || field.get("fields")
+    fields = List.isList(fields) ? fields : List([fields])
     fields.forEach(field => {
-      if (field.get('widget') === 'hidden') return;
-      this.componentValidate[field.get('name')]();
-    });
-  };
+      if (field.get("widget") === "hidden") return
+      this.componentValidate[field.get("name")]()
+    })
+  }
 
   controlFor(field, key) {
     const {
@@ -79,13 +83,13 @@ export default class ObjectControl extends React.Component {
       fieldsErrors,
       editorControl: EditorControl,
       controlRef,
-    } = this.props;
+    } = this.props
 
-    if (field.get('widget') === 'hidden') {
-      return null;
+    if (field.get("widget") === "hidden") {
+      return null
     }
-    const fieldName = field.get('name');
-    const fieldValue = value && Map.isMap(value) ? value.get(fieldName) : value;
+    const fieldName = field.get("name")
+    const fieldValue = value && Map.isMap(value) ? value.get(fieldName) : value
 
     return (
       <EditorControl
@@ -100,25 +104,25 @@ export default class ObjectControl extends React.Component {
         processControlRef={controlRef && controlRef.bind(this)}
         controlRef={controlRef}
       />
-    );
+    )
   }
 
   handleCollapseToggle = () => {
-    this.setState({ collapsed: !this.state.collapsed });
-  };
+    this.setState({ collapsed: !this.state.collapsed })
+  }
 
   renderFields = (multiFields, singleField) => {
     if (multiFields) {
-      return multiFields.map((f, idx) => this.controlFor(f, idx));
+      return multiFields.map((f, idx) => this.controlFor(f, idx))
     }
-    return this.controlFor(singleField);
-  };
+    return this.controlFor(singleField)
+  }
 
   render() {
-    const { field, forID, classNameWrapper, forList } = this.props;
-    const { collapsed } = this.state;
-    const multiFields = field.get('fields');
-    const singleField = field.get('field');
+    const { field, forID, classNameWrapper, forList } = this.props
+    const { collapsed } = this.state
+    const multiFields = field.get("fields")
+    const singleField = field.get("field")
 
     if (multiFields || singleField) {
       return (
@@ -135,7 +139,7 @@ export default class ObjectControl extends React.Component {
                   [css`
                     ${styleStrings.nestedObjectControl}
                   `]: forList,
-                },
+                }
               )}
             >
               {forList ? null : (
@@ -148,9 +152,9 @@ export default class ObjectControl extends React.Component {
             </div>
           )}
         </ClassNames>
-      );
+      )
     }
 
-    return <h3>No field(s) defined for this widget</h3>;
+    return <h3>No field(s) defined for this widget</h3>
   }
 }

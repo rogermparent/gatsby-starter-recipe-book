@@ -1,29 +1,33 @@
 /** @jsx jsx */
 import { jsx, Container, Flex } from "theme-ui"
+import { Heading } from "@theme-ui/components"
 import React from "react"
 import { graphql, Link } from "gatsby"
 import Layout from "../components/Layout"
 import { SmallHeader } from "../components/Header"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import Image from "gatsby-image"
+import { roundedBoxStyle } from "../components/RoundedBox"
+import PageContainer from "../components/PageContainer"
 
-const PropertyRow = ({label, children}) => (
+const PropertyRow = ({ label, children }) => (
   <div
     sx={{
       display: "flex",
-      flexFlow: "row nowrap"
+      flexFlow: "row nowrap",
     }}
   >
-    <b sx={{flex: "1"}}>{label}: </b><span>{children}</span>
+    <b sx={{ flex: "1" }}>{label}: </b>
+    <span>{children}</span>
   </div>
 )
 
-const CompactList = ({ sx, children, ...props }) => (
+const CompactList = ({ styles, children, ...props }) => (
   <ul
     sx={{
       pl: 0,
       listStyle: "none",
-      ...sx,
+      ...styles,
     }}
     {...props}
   >
@@ -44,6 +48,12 @@ const IngredientListItem = ({ ingredientPagePath, ingredient }) => {
               pl: 1,
               mx: 1,
               my: 2,
+              "@media print": {
+                minHeight: "unset",
+                py: 0,
+                my: 1,
+                fontSize: 1,
+              },
             }}
           >
             {ingredient.text}
@@ -67,7 +77,13 @@ const IngredientListItem = ({ ingredientPagePath, ingredient }) => {
               verticalAlign: "middle",
               width: "100%",
               fontSize: [3, 2, 1],
-              minHeight: ["linkMinimum", 0]
+              minHeight: ["linkMinimum", 0],
+              "@media print": {
+                minHeight: "unset",
+                py: 0,
+                my: 0,
+                fontSize: 1,
+              },
             }}
           >
             {ingredient.label}
@@ -79,7 +95,15 @@ const IngredientListItem = ({ ingredientPagePath, ingredient }) => {
 
 const IngredientList = ({ ingredientPagePath, ingredients }) => {
   return (
-    <CompactList sx={{ my: 1 }}>
+    <CompactList
+      styles={{
+        my: 1,
+        "@media print": {
+          my: 1,
+          p: 0,
+        },
+      }}
+    >
       {ingredients.map((ingredient, i) => (
         <IngredientListItem
           key={i}
@@ -126,100 +150,202 @@ export default ({
   return (
     <Layout title={title}>
       <SmallHeader />
-      <h1
+      <Heading
+        as="h1"
         sx={{
           textAlign: "center",
           fontSize: [6, 7, 8],
-          mt: [4, 5],
-          mb: [3, 4],
+          px: 3,
+          pt: [4, null, 5],
+          pb: [4, null],
+          backgroundColor: "background",
+          "@media print": {
+            float: "left",
+            clear: "left",
+            mr: 2,
+            my: 3,
+            p: 0,
+            width: "300px",
+          },
         }}
       >
         {title}
-      </h1>
+      </Heading>
       <div
         sx={{
           width: "100%",
           maxWidth: "maxPageWidth",
           mx: "auto",
-          mb: [0, 0, -6],
+          mb: [0, -5, null, -6],
+          overflow: "hidden",
+          maxHeight: "30rem",
           backgroundColor: "muted",
+          zIndex: 0,
+          "@media print": {
+            float: "left",
+            clear: "left",
+            width: "300px",
+            px: "30px",
+            height: "175px",
+            mr: 2,
+            mb: 1,
+          },
         }}
       >
-        <Image fluid={image.childImageSharp.fluid} />
+        <Image
+          fluid={image.childImageSharp.fluid}
+          sx={{ height: "100%" }}
+          objectFit="cover"
+          objectPosition="center center"
+          height="100%"
+        />
       </div>
-      <Container sx={{
-        maxWidth: "maxPageWidth",
-        px: [null, null, 4],
-        zIndex: 1,
-      }}>
-        <div sx={{
-          backgroundColor: "background",
-          borderRadius: "lg",
-          display: [null, null, "flex"],
-          alignItems: "center",
-          justifyContent: "center",
-          flexFlow: [null, null, "row nowrap"],
-        }}>
-          <div sx={{
-            flex: [null,null,"0 0 18rem"],
-            mx: ["auto",null,2]
-          }}>
-            <Container sx={{my: 4}}>
-              {author && (
-                <PropertyRow label="Author">{author}</PropertyRow>
-              )}
-              {prep_time && (
-                <PropertyRow label="Prep Time">{prep_time}</PropertyRow>
-              )}
-              {cook_time && (
-                <PropertyRow label="Cook Time">{cook_time}</PropertyRow>
-              )}
-              {total_time && (
-                <PropertyRow label="Total Time">{total_time}</PropertyRow>
-              )}
-              {source && (sourceLabel ? (
-                <PropertyRow label="Source">
-                  <a href={source}>{sourceLabel}</a>
-                </PropertyRow>
-              ) : (
-                <div sx={{fontWeight: "bold"}}>
-                  <a href={source}>Source</a>
-                </div>)
-              )}
-              {recipeYield && (
-                <div>
-                  <b>Yield: </b><span>{recipeYield}</span>
-                </div>
-              )}
-            </Container>
-            <div sx={{
-              backgroundColor: "muted",
-              p: 3,
-              borderRadius: "lg"
-            }}>
-              <h2
+      <div
+        sx={{
+          maxWidth: "maxPageWidth",
+          zIndex: 1,
+          mx: "auto",
+        }}
+      >
+        <PageContainer
+          styles={{
+            borderRadius: [0, "lg"],
+            width: "auto",
+            mx: [0, 2, 3, 5],
+            maxWidth: ["maxContentWidth", null, null, "maxPageWidth"],
+            zIndex: 1,
+
+            position: "relative",
+            "@media print": {
+              mx: 0,
+              px: 0,
+              display: "block",
+              background: "none",
+            },
+          }}
+        >
+          <div
+            sx={{
+              display: [null, null, null, "flex"],
+              alignItems: "center",
+              justifyContent: "center",
+              flexFlow: [null, null, null, "row nowrap"],
+              p: [null, null, null, 2],
+            }}
+          >
+            <div
+              sx={{
+                flex: [null, null, "0 0 18rem"],
+                mx: "auto",
+                "@media print": {
+                  width: "300px",
+                  float: "left",
+                  clear: "left",
+                  fontSize: 2,
+                  width: "300px",
+                  ml: 0,
+                  mr: 2,
+                  mb: 3,
+                },
+              }}
+            >
+              <div
                 sx={{
-                  borderBottom: "1px solid gray",
-                  fontSize: 5,
-                  mt: 0,
-                  mb: 2,
-                  pb: 2,
-                  pl: 1,
+                  ...roundedBoxStyle,
+                  p: 2,
+                  backgroundColor: "muted",
+                  mx: 2,
+                  my: 3,
+                  flex: "1",
+                  "@media print": {
+                    my: 1,
+                    p: 2,
+                    fontSize: 0,
+                  },
                 }}
               >
-                Ingredients
-              </h2>
-              <IngredientList
-                ingredientPagePath={ingredientsTaxonomy.termPagePath}
-                ingredients={ingredients}
-              />
+                {author && <PropertyRow label="Author">{author}</PropertyRow>}
+                {prep_time && (
+                  <PropertyRow label="Prep Time">{prep_time}</PropertyRow>
+                )}
+                {cook_time && (
+                  <PropertyRow label="Cook Time">{cook_time}</PropertyRow>
+                )}
+                {total_time && (
+                  <PropertyRow label="Total Time">{total_time}</PropertyRow>
+                )}
+                {source &&
+                  (sourceLabel ? (
+                    <PropertyRow label="Source">
+                      <a href={source}>{sourceLabel}</a>
+                    </PropertyRow>
+                  ) : (
+                    <div
+                      sx={{
+                        fontWeight: "bold",
+                        "@media print": { display: "none" },
+                      }}
+                    >
+                      <a href={source}>Source</a>
+                    </div>
+                  ))}
+                {recipeYield && (
+                  <div>
+                    <b>Yield: </b>
+                    <span>{recipeYield}</span>
+                  </div>
+                )}
+              </div>
+              <div
+                sx={{
+                  ...roundedBoxStyle,
+                  p: 2,
+                  backgroundColor: "muted",
+                  mx: 2,
+                  "@media print": {
+                    p: 1,
+                    m: 1,
+                  },
+                }}
+              >
+                <h2
+                  sx={{
+                    borderBottom: "1px solid gray",
+                    fontSize: [5, 4],
+                    mt: 0,
+                    mb: 2,
+                    pb: 2,
+                    pl: 1,
+                    "@media print": {
+                      py: 1,
+                      my: 1,
+                      fontSize: 1,
+                    },
+                  }}
+                >
+                  Ingredients
+                </h2>
+                <IngredientList
+                  ingredientPagePath={ingredientsTaxonomy.termPagePath}
+                  ingredients={ingredients}
+                />
+              </div>
+            </div>
+            <div
+              sx={{
+                "@media print": {
+                  fontSize: "1",
+                  "ul, ol": {
+                    listStylePosition: "inside",
+                  },
+                },
+              }}
+            >
+              <MDXRenderer>{mdxRecipe.body}</MDXRenderer>
             </div>
           </div>
-          <div>
-            <MDXRenderer>{mdxRecipe.body}</MDXRenderer>
-          </div>
-        </div>
-      </Container>
+        </PageContainer>
+      </div>
     </Layout>
   )
 }
@@ -249,7 +375,7 @@ export const query = graphql`
         cook_time
         total_time
         image {
-          childImageSharp{
+          childImageSharp {
             fluid(maxWidth: 1080) {
               ...GatsbyImageSharpFluid
             }

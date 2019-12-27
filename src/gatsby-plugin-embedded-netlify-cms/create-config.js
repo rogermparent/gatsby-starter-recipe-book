@@ -18,6 +18,12 @@ const config = ({ data, pageContext: { taxonomies } }) => {
         create: true,
         fields: [
           { label: "Title", name: "title", widget: "string" },
+          {
+            label: "Page Heading",
+            name: "pageHeading",
+            widget: "string",
+            required: false,
+          },
           { label: "Body", name: "body", widget: "markdown" },
         ],
       },
@@ -32,7 +38,12 @@ const config = ({ data, pageContext: { taxonomies } }) => {
         fields: [
           { label: "Image", name: "image", widget: "image" },
           { label: "Title", name: "title", widget: "string" },
-          { label: "Description", name: "description", widget: "text", required: false },
+          {
+            label: "Description",
+            name: "description",
+            widget: "text",
+            required: false,
+          },
           { label: "Source", name: "source", widget: "string" },
           { label: "Author", name: "author", widget: "string" },
           { label: "Prep Time", name: "prep_time", widget: "string" },
@@ -43,21 +54,21 @@ const config = ({ data, pageContext: { taxonomies } }) => {
             name: "categories",
             widget: "create-select",
             multiple: true,
-            options: taxonomies.categories
+            options: taxonomies.categories,
           },
           {
             label: "Cuisines",
             name: "cuisines",
             widget: "create-select",
             multiple: true,
-            options: taxonomies.cuisines
+            options: taxonomies.cuisines,
           },
           {
             label: "Cooking Methods",
             name: "methods",
             widget: "create-select",
             multiple: true,
-            options: taxonomies.methods
+            options: taxonomies.methods,
           },
           {
             label: "Yield",
