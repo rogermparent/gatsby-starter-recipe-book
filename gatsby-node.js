@@ -20,57 +20,6 @@ exports.createSchemaCustomization = ({ actions, schema }, pluginOptions) => {
         footerNav: "[NavLink]",
       },
     }),
-    schema.buildUnionType({
-      name: "RecipeIngredientListEntry",
-      types: ["RecipeIngredientEntry", "RecipeHeadingEntry"],
-      resolveType: x => x.type,
-    }),
-    schema.buildObjectType({
-      name: `RecipeIngredientEntry`,
-      fields: {
-        ingredient: `String`,
-        line: `SplitNumberString!`,
-        ingredientSlug: {
-          type: `String`,
-          extensions: {
-            toTagSlug: {
-              taxonomy: "ingredients",
-              field: "ingredient",
-            },
-          },
-        },
-      },
-    }),
-    schema.buildObjectType({
-      name: `SplitNumberString`,
-      fields: {
-        strings: "[String]!",
-        numbers: "[Float]!",
-      },
-    }),
-    schema.buildObjectType({
-      name: `RecipeHeadingEntry`,
-      fields: {
-        text: "String",
-      },
-    }),
-    schema.buildInterfaceType({
-      name: `Recipe`,
-      fields: {
-        name: `String`,
-        ingredients: `[RecipeIngredientListEntry]`,
-        yield: `SplitNumberString`,
-      },
-    }),
-    schema.buildObjectType({
-      name: `MdxRecipe`,
-      fields: {
-        name: { type: `String` },
-        ingredients: { type: `[RecipeIngredientListEntry]` },
-        yield: `SplitNumberString`,
-      },
-      interfaces: [`Recipe`],
-    }),
     schema.buildObjectType({
       name: `MdxFrontmatter`,
       fields: {

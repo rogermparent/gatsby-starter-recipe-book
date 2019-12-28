@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import { jsx, Container } from "theme-ui"
-import { graphql, Link } from "gatsby"
+import { jsx } from "theme-ui"
+import { graphql } from "gatsby"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import Layout from "../components/Layout"
 import HomeHeader from "../components/HomeHeader"

@@ -1,7 +1,6 @@
 /** @jsx jsx */
 import { jsx, Flex } from "theme-ui"
 import { graphql, useStaticQuery } from "gatsby"
-import { useHeaderMetadata } from "./Header"
 import { Nav } from "./Header"
 
 const useFooterMetadata = () =>

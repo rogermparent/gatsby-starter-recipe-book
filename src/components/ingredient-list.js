@@ -206,7 +206,7 @@ export default class ListControl extends React.Component {
   getFieldsDefault = (fields, initialValue = {}) => {
     return fields.reduce((acc, item) => {
       const subfields = item.get("field") || item.get("fields")
-      const object = item.get("widget") == "object"
+      const object = item.get("widget") === "object"
       const name = item.get("name")
       const defaultValue = item.get("default", null)
 

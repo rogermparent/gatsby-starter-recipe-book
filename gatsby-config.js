@@ -27,8 +27,6 @@ const resolveIngredientTerms = ({ node, getNode, key, options }) => {
   return collectedIngredients
 }
 
-const makeRecipeFieldData = require("./src/utils/make-recipe-field-data")
-
 const resolveRecipeTaxonomyTerms = args =>
   args.key === "ingredients"
     ? resolveIngredientTerms(args)
@@ -110,14 +108,11 @@ module.exports = {
           {
             contentDirectory: ``,
           },
-          {
-            contentDirectory: `recipes`,
-            typeName: `MdxRecipe`,
-            defaultTemplate: `recipe`,
-            adjustFieldData: makeRecipeFieldData,
-          },
         ],
       },
+    },
+    {
+      resolve: `gatsby-transformer-mdx-content-page-recipes`,
     },
     {
       resolve: `gatsby-plugin-manifest`,

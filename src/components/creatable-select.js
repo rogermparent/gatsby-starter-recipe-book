@@ -4,7 +4,6 @@ import React from "react"
 import PropTypes from "prop-types"
 import ImmutablePropTypes from "react-immutable-proptypes"
 import { Map, List, fromJS } from "immutable"
-import { find } from "lodash"
 import Creatable from "react-select/creatable"
 import { reactSelectStyles } from "netlify-cms-ui-default"
 

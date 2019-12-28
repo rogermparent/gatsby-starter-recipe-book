@@ -1,14 +1,12 @@
 /** @jsx jsx */
-import { jsx, Container } from "theme-ui"
-import { Heading } from "@theme-ui/components"
+import { jsx } from "theme-ui"
 import { useReducer } from "react"
 import { graphql, Link } from "gatsby"
 import Layout from "../components/Layout"
 import { BigHeader } from "../components/Header"
 import PageContainer from "../components/PageContainer"
-import PostCard from "../components/PostCard"
 import pluralize from "../utils/pluralize"
-import RoundedBox, { roundedBoxStyle } from "../components/RoundedBox"
+import { roundedBoxStyle } from "../components/RoundedBox"
 
 const FilterInput = ({ styles, currentFilter, entryCount, onFilter }) => {
   return (

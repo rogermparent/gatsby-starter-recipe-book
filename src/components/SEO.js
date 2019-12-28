@@ -26,17 +26,18 @@ function QueriedSEO({
       }
     }
   `)
-  return SEO({
-    siteTitle: siteMetadata.title,
-    siteDescription: siteMetadata.description,
-    siteAuthor: siteMetadata.author,
-
-    description,
-    lang,
-    meta,
-    keywords,
-    title,
-  })
+  return (
+    <SEO
+      siteTitle={siteMetadata.title}
+      siteDescription={siteMetadata.description}
+      siteAuthor={siteMetadata.author}
+      description={description}
+      lang={lang}
+      meta={meta}
+      keywords={keywords}
+      title={title}
+    />
+  )
 }
 
 export default QueriedSEO

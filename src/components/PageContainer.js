@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Container } from "theme-ui"
+import { jsx } from "theme-ui"
 
 export const PageBackground = ({ children, styles }) => (
   <div

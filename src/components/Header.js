@@ -1,7 +1,7 @@
 /** @jsx jsx */
-import { jsx, Flex } from "theme-ui"
+import { jsx } from "theme-ui"
 import { Link, graphql, useStaticQuery } from "gatsby"
-import { Heading, Styled } from "@theme-ui/components"
+import { Heading, Flex } from "@theme-ui/components"
 
 export const useHeaderMetadata = () =>
   useStaticQuery(graphql`

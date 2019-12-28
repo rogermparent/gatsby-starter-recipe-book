@@ -1,9 +1,5 @@
 /** @jsx jsx */
-import { jsx, Layout } from "theme-ui"
-import { Global } from "@emotion/core"
-import StyleReset from "gatsby-theme-platinum/src/utils/normalize-css"
-import React from "react"
-import Header from "./Header"
+import { jsx } from "theme-ui"
 import Footer from "./Footer"
 import SEO from "./SEO"
 

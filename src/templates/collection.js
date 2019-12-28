@@ -1,7 +1,6 @@
 /** @jsx jsx */
-import { jsx, Container } from "theme-ui"
-import { Heading } from "@theme-ui/components"
-import { graphql, Link } from "gatsby"
+import { jsx } from "theme-ui"
+import { graphql } from "gatsby"
 import { BigHeader } from "../components/Header"
 import Layout from "../components/Layout"
 import { PageContainer } from "../components/PageContainer"

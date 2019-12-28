@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import { jsx, Container, Flex } from "theme-ui"
-import { Heading } from "@theme-ui/components"
+import { jsx } from "theme-ui"
+import { Heading, Flex } from "@theme-ui/components"
 import React, { useReducer } from "react"
 import { graphql, Link } from "gatsby"
 import Layout from "../components/Layout"
@@ -9,7 +9,7 @@ import { MDXRenderer } from "gatsby-plugin-mdx"
 import Image from "gatsby-image"
 import { roundedBoxStyle } from "../components/RoundedBox"
 import PageContainer from "../components/PageContainer"
-import { reconstitute } from "../utils/string-number-multiplier"
+import { reconstitute } from "extract-string-numbers"
 
 const reconstituteWithMultiplier = ({ strings, numbers }, multiplier) =>
   reconstitute({
@@ -42,11 +42,7 @@ const CompactList = ({ styles, children, ...props }) => (
   </ul>
 )
 
-const IngredientListItem = ({
-  ingredientPagePath,
-  ingredient,
-  multiplier,
-}) => {
+const IngredientListItem = ({ ingredientPagePath, ingredient, multiplier }) => {
   switch (ingredient.type) {
     case "RecipeHeadingEntry":
       return (
@@ -72,6 +68,7 @@ const IngredientListItem = ({
         </li>
       )
     case "RecipeIngredientEntry":
+    default:
       return (
         <li
           sx={{
@@ -130,7 +127,7 @@ const TagList = ({ termPagePath, terms }) => {
   return terms.map((term, i) => (
     <React.Fragment key={i}>
       {i !== 0 && ", "}
-      <Link to={`/${termPagePath}/${term.slug}`}>
+      <Link sx={{ fontSize: 1 }} to={`/${termPagePath}/${term.slug}`}>
         {term.label || term.term}
       </Link>
     </React.Fragment>
@@ -139,28 +136,30 @@ const TagList = ({ termPagePath, terms }) => {
 
 export default ({
   data: {
-    mdxRecipe,
+    mdxRecipe: {
+      ingredients,
+      yield: recipeYield,
+      body,
+      frontmatter: {
+        title,
+        source,
+        sourceLabel,
+        author,
+        prep_time,
+        cook_time,
+        total_time,
+        image,
+      },
+      tags: {
+        taxonomies: { categories, cuisines, methods },
+      },
+    },
     ingredientsTaxonomy,
     categoriesTaxonomy,
     methodsTaxonomy,
     cuisinesTaxonomy,
   },
 }) => {
-  const {
-    ingredients,
-    yield: recipeYield,
-    frontmatter: {
-      title,
-      source,
-      sourceLabel,
-      author,
-      prep_time,
-      cook_time,
-      total_time,
-      image,
-    },
-  } = mdxRecipe
-
   const [multiplier, setMultiplier] = useReducer((state, action) => {
     if (!action || action === 1) return null
     return action
@@ -228,13 +227,14 @@ export default ({
       >
         <PageContainer
           styles={{
+            py: 2,
             borderRadius: [0, "lg"],
             width: "auto",
             mx: [0, 2, 3, 5],
             maxWidth: ["maxContentWidth", null, null, "maxPageWidth"],
             zIndex: 1,
-
             position: "relative",
+
             "@media print": {
               mx: 0,
               px: 0,
@@ -249,7 +249,7 @@ export default ({
               alignItems: "center",
               justifyContent: "center",
               flexFlow: [null, null, null, "row nowrap"],
-              p: [null, null, null, 2],
+              px: [null, null, null, 2],
             }}
           >
             <div
@@ -261,7 +261,6 @@ export default ({
                   float: "left",
                   clear: "left",
                   fontSize: 2,
-                  width: "300px",
                   ml: 0,
                   mr: 2,
                   mb: 3,
@@ -274,7 +273,7 @@ export default ({
                   p: 2,
                   backgroundColor: "muted",
                   mx: 2,
-                  my: 3,
+                  mb: 3,
                   flex: "1",
                   "@media print": {
                     my: 1,
@@ -308,6 +307,28 @@ export default ({
                       <a href={source}>Source</a>
                     </div>
                   ))}
+
+                <PropertyRow label="Categories">
+                  <TagList
+                    termPagePath={categoriesTaxonomy.termPagePath}
+                    terms={categories}
+                  />
+                </PropertyRow>
+
+                <PropertyRow label="Tools">
+                  <TagList
+                    termPagePath={methodsTaxonomy.termPagePath}
+                    terms={methods}
+                  />
+                </PropertyRow>
+
+                <PropertyRow label="Cuisines">
+                  <TagList
+                    termPagePath={cuisinesTaxonomy.termPagePath}
+                    terms={cuisines}
+                  />
+                </PropertyRow>
+
                 {recipeYield && (
                   <PropertyRow label="Yield">
                     {reconstituteWithMultiplier(recipeYield, multiplier)}
@@ -382,7 +403,7 @@ export default ({
                 },
               }}
             >
-              <MDXRenderer>{mdxRecipe.body}</MDXRenderer>
+              <MDXRenderer>{body}</MDXRenderer>
             </div>
           </div>
         </PageContainer>

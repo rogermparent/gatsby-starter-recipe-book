@@ -4,7 +4,6 @@ import { Heading } from "@theme-ui/components"
 import { graphql } from "gatsby"
 import Layout from "../components/Layout"
 import { MDXRenderer } from "gatsby-plugin-mdx"
-import { PageContainer } from "../components/PageContainer"
 import { SmallHeader } from "../components/Header"
 
 export default ({
