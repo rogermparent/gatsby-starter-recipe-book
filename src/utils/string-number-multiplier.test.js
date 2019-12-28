@@ -1,9 +1,6 @@
-const {
-  multiplyNumbersInString,
-} = require("./string-number-multiplier")
+const { multiplyNumbersInString } = require("./string-number-multiplier")
 
-describe("multiplyNumbersInString", ()=> {
-
+describe("multiplyNumbersInString", () => {
   test("Passes the string through when given no multiplier", () => {
     expect(multiplyNumbersInString("1 and 2")).toBe("1 and 2")
   })
@@ -37,5 +34,4 @@ describe("multiplyNumbersInString", ()=> {
       "The number is 2 2/5."
     )
   })
-
 })

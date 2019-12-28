@@ -1,5 +1,5 @@
-const numericQuantity = require("numeric-quantity")
-const formatQuantity = require("format-quantity")
+const numericQuantity = require("numeric-quantity/dist/numeric-quantity.cjs")
+const formatQuantity = require("format-quantity/dist/format-quantity.cjs")
 const getNumberRegex = /((?:[0-9]+\/[0-9]+)|(?:[0-9]+(?:(?: [1-9]+\/[1-9]+)|(?:\.[1-9]+))?))/g
 
 /*
@@ -9,13 +9,13 @@ const getNumberRegex = /((?:[0-9]+\/[0-9]+)|(?:[0-9]+(?:(?: [1-9]+\/[1-9]+)|(?:\
   - A mixed fraction (1 1/2)
 */
 
-const splitByNumbers = (str) => {
+const splitByNumbers = str => {
   const split = str.split(getNumberRegex)
   const strings = []
   const numbers = []
-  for(const i in split) {
+  for (const i in split) {
     const token = split[i]
-    if(i%2 === 0) {
+    if (i % 2 === 0) {
       strings.push(token)
     } else {
       numbers.push(numericQuantity(token))
@@ -24,23 +24,23 @@ const splitByNumbers = (str) => {
   return { strings, numbers }
 }
 
-const reconstitute = ({strings, numbers}, vulgar) => {
+const reconstitute = ({ strings, numbers }, vulgar) => {
   const parsedBits = []
-  for(const i in strings) {
+  for (const i in strings) {
     parsedBits.push(strings[i])
-    if(i < numbers.length) {
+    if (i < numbers.length) {
       parsedBits.push(formatQuantity(numbers[i], vulgar))
     }
   }
-  return parsedBits.join('')
+  return parsedBits.join("")
 }
 
 const multiplyNumbersInString = (str, multiplier, vulgar) => {
-  const {strings, numbers} = splitByNumbers(str)
+  const { strings, numbers } = splitByNumbers(str)
   return reconstitute(
     {
       strings,
-      numbers: multiplier ? numbers.map(x => x*multiplier) : numbers
+      numbers: multiplier ? numbers.map(x => x * multiplier) : numbers,
     },
     vulgar
   )
@@ -49,5 +49,5 @@ const multiplyNumbersInString = (str, multiplier, vulgar) => {
 module.exports = {
   splitByNumbers,
   reconstitute,
-  multiplyNumbersInString
+  multiplyNumbersInString,
 }

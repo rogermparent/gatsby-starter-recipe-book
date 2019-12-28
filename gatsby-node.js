@@ -20,24 +20,16 @@ exports.createSchemaCustomization = ({ actions, schema }, pluginOptions) => {
         footerNav: "[NavLink]",
       },
     }),
+    schema.buildUnionType({
+      name: "RecipeIngredientListEntry",
+      types: ["RecipeIngredientEntry", "RecipeHeadingEntry"],
+      resolveType: x => x.type,
+    }),
     schema.buildObjectType({
-      name: `MdxFrontmatterIngredient`,
+      name: `RecipeIngredientEntry`,
       fields: {
-        type: {
-          type: `String`,
-        },
-        amount: {
-          type: `String`,
-          extensions: {
-            infer: false,
-          },
-        },
-        ingredient: {
-          type: `String`,
-        },
-        unit: {
-          type: `String`,
-        },
+        ingredient: `String`,
+        line: `SplitNumberString!`,
         ingredientSlug: {
           type: `String`,
           extensions: {
@@ -50,27 +42,39 @@ exports.createSchemaCustomization = ({ actions, schema }, pluginOptions) => {
       },
     }),
     schema.buildObjectType({
-      name: `MdxFrontmatterYield`,
+      name: `SplitNumberString`,
       fields: {
-        unit: {
-          type: `String`,
-        },
-        quantity: {
-          type: `String`,
-          extensions: {
-            infer: false,
-          },
-        },
+        strings: "[String]!",
+        numbers: "[Float]!",
       },
+    }),
+    schema.buildObjectType({
+      name: `RecipeHeadingEntry`,
+      fields: {
+        text: "String",
+      },
+    }),
+    schema.buildInterfaceType({
+      name: `Recipe`,
+      fields: {
+        name: `String`,
+        ingredients: `[RecipeIngredientListEntry]`,
+        yield: `SplitNumberString`,
+      },
+    }),
+    schema.buildObjectType({
+      name: `MdxRecipe`,
+      fields: {
+        name: { type: `String` },
+        ingredients: { type: `[RecipeIngredientListEntry]` },
+        yield: `SplitNumberString`,
+      },
+      interfaces: [`Recipe`],
     }),
     schema.buildObjectType({
       name: `MdxFrontmatter`,
       fields: {
         pageHeading: `String`,
-        yield: `String`,
-        ingredients: {
-          type: `[MdxFrontmatterIngredient]`,
-        },
         image: {
           type: `File`,
           resolve: (source, args, context, info) => {

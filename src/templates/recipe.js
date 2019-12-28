@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx, Container, Flex } from "theme-ui"
 import { Heading } from "@theme-ui/components"
-import React from "react"
+import React, { useReducer } from "react"
 import { graphql, Link } from "gatsby"
 import Layout from "../components/Layout"
 import { SmallHeader } from "../components/Header"
@@ -9,6 +9,13 @@ import { MDXRenderer } from "gatsby-plugin-mdx"
 import Image from "gatsby-image"
 import { roundedBoxStyle } from "../components/RoundedBox"
 import PageContainer from "../components/PageContainer"
+import { reconstitute } from "../utils/string-number-multiplier"
+
+const reconstituteWithMultiplier = ({ strings, numbers }, multiplier) =>
+  reconstitute({
+    strings,
+    numbers: multiplier ? numbers.map(num => num * multiplier) : numbers,
+  })
 
 const PropertyRow = ({ label, children }) => (
   <div
@@ -35,9 +42,13 @@ const CompactList = ({ styles, children, ...props }) => (
   </ul>
 )
 
-const IngredientListItem = ({ ingredientPagePath, ingredient }) => {
+const IngredientListItem = ({
+  ingredientPagePath,
+  ingredient,
+  multiplier,
+}) => {
   switch (ingredient.type) {
-    case "heading":
+    case "RecipeHeadingEntry":
       return (
         <li sx={{ listStyle: "none" }}>
           <h3
@@ -60,8 +71,7 @@ const IngredientListItem = ({ ingredientPagePath, ingredient }) => {
           </h3>
         </li>
       )
-    case "ingredient":
-    default:
+    case "RecipeIngredientEntry":
       return (
         <li
           sx={{
@@ -86,14 +96,14 @@ const IngredientListItem = ({ ingredientPagePath, ingredient }) => {
               },
             }}
           >
-            {ingredient.label}
+            {reconstituteWithMultiplier(ingredient.line, multiplier)}
           </Link>
         </li>
       )
   }
 }
 
-const IngredientList = ({ ingredientPagePath, ingredients }) => {
+const IngredientList = ({ ingredientPagePath, ingredients, multiplier }) => {
   return (
     <CompactList
       styles={{
@@ -109,6 +119,7 @@ const IngredientList = ({ ingredientPagePath, ingredients }) => {
           key={i}
           ingredientPagePath={ingredientPagePath}
           ingredient={ingredient}
+          multiplier={multiplier}
         />
       ))}
     </CompactList>
@@ -136,17 +147,25 @@ export default ({
   },
 }) => {
   const {
-    title,
-    source,
-    sourceLabel,
-    author,
-    prep_time,
-    cook_time,
-    total_time,
     ingredients,
-    image,
     yield: recipeYield,
-  } = mdxRecipe.frontmatter
+    frontmatter: {
+      title,
+      source,
+      sourceLabel,
+      author,
+      prep_time,
+      cook_time,
+      total_time,
+      image,
+    },
+  } = mdxRecipe
+
+  const [multiplier, setMultiplier] = useReducer((state, action) => {
+    if (!action || action === 1) return null
+    return action
+  }, 1)
+
   return (
     <Layout title={title}>
       <SmallHeader />
@@ -290,11 +309,32 @@ export default ({
                     </div>
                   ))}
                 {recipeYield && (
-                  <div>
-                    <b>Yield: </b>
-                    <span>{recipeYield}</span>
-                  </div>
+                  <PropertyRow label="Yield">
+                    {reconstituteWithMultiplier(recipeYield, multiplier)}
+                  </PropertyRow>
                 )}
+                <Flex
+                  as="label"
+                  sx={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <b sx={{ flex: 1 }}>Multiply: </b>
+                  <input
+                    sx={{
+                      border: "1px solid",
+                      borderColor: "muted",
+                      p: 1,
+                      borderRadius: "default",
+                    }}
+                    type="number"
+                    defaultValue="1"
+                    min="1"
+                    step="0.5"
+                    onChange={e => setMultiplier(e.target.value)}
+                  />
+                </Flex>
               </div>
               <div
                 sx={{
@@ -328,6 +368,7 @@ export default ({
                 <IngredientList
                   ingredientPagePath={ingredientsTaxonomy.termPagePath}
                   ingredients={ingredients}
+                  multiplier={multiplier}
                 />
               </div>
             </div>
@@ -367,6 +408,24 @@ export const query = graphql`
       pagePath
       template
       body
+      yield {
+        strings
+        numbers
+      }
+      ingredients {
+        type: __typename
+        ... on RecipeIngredientEntry {
+          ingredient
+          ingredientSlug
+          line {
+            numbers
+            strings
+          }
+        }
+        ... on RecipeHeadingEntry {
+          text
+        }
+      }
       frontmatter {
         title
         source
@@ -380,16 +439,6 @@ export const query = graphql`
               ...GatsbyImageSharpFluid
             }
           }
-        }
-        yield
-        ingredients {
-          amount
-          ingredient
-          text
-          label
-          type
-          unit
-          ingredientSlug
         }
       }
       tags: childTaxonomyValueTerms {

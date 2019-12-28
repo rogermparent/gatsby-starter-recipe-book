@@ -16,21 +16,18 @@ const resolveMdxContentPageTaxonomyTerms = ({
 }
 
 const resolveIngredientTerms = ({ node, getNode, key, options }) => {
-  const MdxNode = getNode(node.parent)
   const collectedIngredients = []
 
-  const ingredientEntries = MdxNode.frontmatter.ingredients
-
-  if (ingredientEntries) {
-    for (const ingredientEntry of ingredientEntries) {
-      if (ingredientEntry.type === "ingredient" && ingredientEntry.ingredient) {
-        collectedIngredients.push(ingredientEntry.ingredient)
-      }
+  if (node.ingredients) {
+    for (const { ingredient } of node.ingredients) {
+      if (ingredient) collectedIngredients.push(ingredient)
     }
   }
 
   return collectedIngredients
 }
+
+const makeRecipeFieldData = require("./src/utils/make-recipe-field-data")
 
 const resolveRecipeTaxonomyTerms = args =>
   args.key === "ingredients"
@@ -117,6 +114,7 @@ module.exports = {
             contentDirectory: `recipes`,
             typeName: `MdxRecipe`,
             defaultTemplate: `recipe`,
+            adjustFieldData: makeRecipeFieldData,
           },
         ],
       },
