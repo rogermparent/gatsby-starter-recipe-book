@@ -40,6 +40,7 @@ const Footer = () => {
           flexFlow: "row wrap",
           textAlign: "center",
           maxWidth: "maxPageWidth",
+          mx: "auto"
         }}
       >
         {footerCopy && (
