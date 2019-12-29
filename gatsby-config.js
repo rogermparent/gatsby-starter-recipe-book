@@ -134,5 +134,8 @@ module.exports = {
         manualInit: true,
       },
     },
+    {
+      resolve: `gatsby-plugin-netlify-cache`
+    }
   ],
 }
