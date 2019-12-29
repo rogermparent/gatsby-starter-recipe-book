@@ -10,7 +10,7 @@
     "gatsby": "^2.18.5",
     "gatsby-image": "^2.2.37",
     "gatsby-plugin-embedded-netlify-cms": "^0.0.1",
-    "gatsby-theme-platinum": "^0.6.3",
+    "gatsby-theme-platinum": "^0.7.0",
     "gatsby-transformer-mdx-content-page-recipes": "^0.0.1",
     "netlify-cms-ui-default": "^2.7.0",
     "netlify-cms-widget-object": "^2.3.0",
