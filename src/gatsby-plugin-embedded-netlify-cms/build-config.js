@@ -1,4 +1,30 @@
-const config = ({ data, pageContext: { taxonomies } }) => {
+const buildConfig = async ({graphql}) => {
+  const {data, errors} = await graphql(`
+    {
+      allTaxonomy {
+        nodes {
+          key
+          terms {
+            edges {
+              term {
+                slug
+                label
+              }
+            }
+          }
+        }
+      }
+    }
+  `)
+
+  if(errors) throw errors;
+
+  const taxonomies = {};
+
+  for (const { key, terms } of data.allTaxonomy.nodes) {
+    taxonomies[key] = terms.edges.map(({ term }) => term.label);
+  }
+
   const configResult = {
     backend: {
       name: "git-gateway",
@@ -113,7 +139,8 @@ const config = ({ data, pageContext: { taxonomies } }) => {
       },
     ],
   }
+
   return configResult
 }
 
-export default config
+module.exports = buildConfig

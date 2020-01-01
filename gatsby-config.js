@@ -1,3 +1,5 @@
+const buildNetlifyCMSConfig = require('./src/gatsby-plugin-embedded-netlify-cms/build-config')
+
 const resolveCollectionFromParentFile = ({ node, getNode, options }) => {
   const mdxNode = getNode(node.parent)
   const fileNode = getNode(mdxNode.parent)
@@ -130,8 +132,7 @@ module.exports = {
       resolve: `gatsby-plugin-embedded-netlify-cms`,
       options: {
         enableIdentityWidget: false,
-        modulePath: `${__dirname}/src/cms/cms.js`,
-        manualInit: true,
+        buildConfig: buildNetlifyCMSConfig
       },
     },
     {
