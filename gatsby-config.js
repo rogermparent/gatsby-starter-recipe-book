@@ -106,7 +106,7 @@ module.exports = {
       resolve: `gatsby-theme-platinum`,
       options: {
         assetPath: `static/uploads`,
-        transfomerMdxContentPagesOptions: [
+        transformerMdxContentPagesOptions: [
           {
             contentDirectory: ``,
           },
