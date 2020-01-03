@@ -1,5 +1,5 @@
-const buildConfig = async ({graphql}) => {
-  const {data, errors} = await graphql(`
+const buildConfig = async ({ graphql }) => {
+  const { data, errors } = await graphql(`
     {
       allTaxonomy {
         nodes {
@@ -17,12 +17,12 @@ const buildConfig = async ({graphql}) => {
     }
   `)
 
-  if(errors) throw errors;
+  if (errors) throw errors
 
-  const taxonomies = {};
+  const taxonomies = {}
 
   for (const { key, terms } of data.allTaxonomy.nodes) {
-    taxonomies[key] = terms.edges.map(({ term }) => term.label);
+    taxonomies[key] = terms.edges.map(({ term }) => term.label)
   }
 
   const configResult = {

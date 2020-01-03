@@ -1,4 +1,4 @@
-const buildNetlifyCMSConfig = require('./src/gatsby-plugin-embedded-netlify-cms/build-config')
+const buildNetlifyCMSConfig = require("./src/gatsby-plugin-embedded-netlify-cms/build-config")
 
 const resolveCollectionFromParentFile = ({ node, getNode, options }) => {
   const mdxNode = getNode(node.parent)
@@ -105,16 +105,19 @@ module.exports = {
     {
       resolve: `gatsby-theme-platinum`,
       options: {
-        assetPath: `static/uploads`,
+        assetsDirectory: `static/uploads`,
         transformerMdxContentPagesOptions: [
           {
-            contentDirectory: ``,
+            relativeDirectory: ``,
           },
         ],
       },
     },
     {
       resolve: `gatsby-transformer-mdx-content-page-recipes`,
+      options: {
+        relativeDirectory: `recipes`,
+      },
     },
     {
       resolve: `gatsby-plugin-manifest`,
@@ -128,15 +131,19 @@ module.exports = {
         icon: `assets/logo-512.png`, // This path is relative to the root of the site.
       },
     },
+    `gatsby-plugin-preload-link-crossorigin`,
+    `gatsby-plugin-sitemap`,
+    `gatsby-plugin-robots-txt`,
+    `gatsby-plugin-offline`,
     {
       resolve: `gatsby-plugin-embedded-netlify-cms`,
       options: {
         enableIdentityWidget: false,
-        buildConfig: buildNetlifyCMSConfig
+        buildConfig: buildNetlifyCMSConfig,
       },
     },
     {
-      resolve: `gatsby-plugin-netlify-cache`
-    }
+      resolve: `gatsby-plugin-netlify-cache`,
+    },
   ],
 }
