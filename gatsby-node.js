@@ -3,6 +3,17 @@ exports.createSchemaCustomization = ({ actions, schema }, pluginOptions) => {
 
   createTypes([
     schema.buildObjectType({
+      name: `Taxonomy`,
+      fields: {
+        label: { type: `String` },
+        labelSingular: {
+          type: `String`,
+          resolve: async (source, args, context, info) =>
+            source.labelSingular || source.label,
+        },
+      },
+    }),
+    schema.buildObjectType({
       name: `NavLink`,
       fields: {
         name: `String!`,

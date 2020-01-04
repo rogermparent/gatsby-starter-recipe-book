@@ -76,7 +76,7 @@ module.exports = {
         taxonomies: {
           ingredients: {
             label: "Ingredients",
-            label_singular: "Ingredient",
+            labelSingular: "Ingredient",
             terms: {
               "garbanzo-beans": {
                 redirect: "chickpeas",
@@ -85,15 +85,15 @@ module.exports = {
           },
           methods: {
             label: `Methods`,
-            label_singular: `Method`,
+            labelSingular: `Method`,
           },
           cuisines: {
             label: `Cuisines`,
-            label_singular: `Cuisine`,
+            labelSingular: `Cuisine`,
           },
           categories: {
             label: `Categories`,
-            label_singular: `Category`,
+            labelSingular: `Category`,
           },
         },
         resolvers: {

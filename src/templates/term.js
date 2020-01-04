@@ -37,7 +37,7 @@ export const query = graphql`
       label
       slug
       taxonomy {
-        taxonomyLabel: label_singular
+        taxonomyLabel: labelSingular
         taxonomyPagePath
       }
     }
