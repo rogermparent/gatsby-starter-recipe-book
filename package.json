@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "author": "RMP <rogermparent@gmail.com>",
   "dependencies": {
-    "@arrempee/gatsby-plugin-collections": "^2.0.0",
+    "@arrempee/gatsby-plugin-collections": "^3.0.0",
     "@arrempee/gatsby-plugin-taxonomies": "^4.0.0",
     "@emotion/core": "^10.0.22",
     "extract-string-numbers": "^1.0.0",

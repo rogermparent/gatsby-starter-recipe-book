@@ -65,8 +65,7 @@ module.exports = {
       options: {
         indexComponent: `src/templates/index`,
         resolvers: {
-          MdxContentPage: resolveCollectionFromParentFile,
-          MdxRecipe: resolveCollectionFromParentFile,
+          MdxRecipe: "recipes",
         },
       },
     },
