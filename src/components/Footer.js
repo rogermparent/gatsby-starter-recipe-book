@@ -1,5 +1,6 @@
 /** @jsx jsx */
-import { jsx, Flex } from "theme-ui"
+import { jsx } from "theme-ui"
+import { Flex } from "@theme-ui/components"
 import { graphql, useStaticQuery } from "gatsby"
 import { Nav } from "./Header"
 

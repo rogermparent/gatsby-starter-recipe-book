@@ -1,20 +1,22 @@
 /** @jsx jsx */
-import { jsx, Layout } from "theme-ui"
+import { jsx } from "theme-ui"
+import { Flex } from "@theme-ui/components"
 import { Global } from "@emotion/core"
 import StyleReset from "gatsby-theme-platinum/src/utils/normalize-css"
 
-const BaseLayout = props => {
-  const { children, styles } = props
+const BaseLayout = ({className, children}) => {
   return (
-    <Layout
+    <Flex
       sx={{
+        flexFlow: "column nowrap",
+        minHeight: "100vh",
+        overflow: "visible",
         "@media print": {
           display: "block",
           background: "none",
         },
-        overflow: "visible",
-        ...styles,
       }}
+      className={className}
     >
       <Global
         styles={theme => ({
@@ -25,7 +27,7 @@ const BaseLayout = props => {
       />
       <StyleReset />
       {children}
-    </Layout>
+    </Flex>
   )
 }
 
