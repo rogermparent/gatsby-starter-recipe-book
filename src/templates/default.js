@@ -4,7 +4,6 @@ import { Heading } from "@theme-ui/components"
 import { graphql } from "gatsby"
 import Layout from "../components/Layout"
 import { MDXRenderer } from "gatsby-plugin-mdx"
-import { SmallHeader } from "../components/Header"
 
 export default ({
   data: {
@@ -16,7 +15,6 @@ export default ({
 }) => {
   return (
     <Layout title={title}>
-      <SmallHeader />
       <div
         sx={{
           flex: 1,

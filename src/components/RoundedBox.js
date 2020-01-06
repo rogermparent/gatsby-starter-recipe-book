@@ -8,14 +8,8 @@ export const roundedBoxStyle = {
   backgroundColor: "white",
 }
 
-export default ({ children, styles, ...props }) => (
-  <div
-    {...props}
-    sx={{
-      ...roundedBoxStyle,
-      ...styles,
-    }}
-  >
+export default ({ children, className, ...props }) => (
+  <div {...props} className={className} sx={roundedBoxStyle}>
     {children}
   </div>
 )

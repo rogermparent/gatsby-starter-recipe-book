@@ -16,7 +16,7 @@
     "gatsby-plugin-preload-link-crossorigin": "^1.0.2",
     "gatsby-plugin-robots-txt": "^1.5.0",
     "gatsby-plugin-sitemap": "^2.2.24",
-    "gatsby-theme-platinum": "^1.0.0",
+    "gatsby-theme-platinum": "^2.0.0",
     "gatsby-transformer-mdx-content-page-recipes": "^0.0.1",
     "netlify-cms-ui-default": "^2.7.0",
     "netlify-cms-widget-object": "^2.3.0",

@@ -8,7 +8,7 @@ import RoundedBox from "./RoundedBox"
 const PostCard = ({ link, fluidImage, title, description }) => {
   return (
     <RoundedBox
-      styles={{
+      sx={{
         height: "100%",
         display: "flex",
         flexFlow: "column nowrap",

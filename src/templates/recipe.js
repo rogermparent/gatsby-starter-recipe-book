@@ -4,7 +4,6 @@ import { Heading, Flex } from "@theme-ui/components"
 import React, { useReducer } from "react"
 import { graphql, Link } from "gatsby"
 import Layout from "../components/Layout"
-import { SmallHeader } from "../components/Header"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import Image from "gatsby-image"
 import { roundedBoxStyle } from "../components/RoundedBox"
@@ -29,13 +28,13 @@ const PropertyRow = ({ label, children }) => (
   </div>
 )
 
-const CompactList = ({ styles, children, ...props }) => (
+const CompactList = ({ className, children, ...props }) => (
   <ul
     sx={{
       pl: 0,
       listStyle: "none",
-      ...styles,
     }}
+    className={className}
     {...props}
   >
     {children}
@@ -103,7 +102,7 @@ const IngredientListItem = ({ ingredientPagePath, ingredient, multiplier }) => {
 const IngredientList = ({ ingredientPagePath, ingredients, multiplier }) => {
   return (
     <CompactList
-      styles={{
+      sx={{
         my: 1,
         "@media print": {
           my: 1,
@@ -167,7 +166,6 @@ export default ({
 
   return (
     <Layout title={title}>
-      <SmallHeader />
       <Heading
         as="h1"
         sx={{
@@ -226,7 +224,7 @@ export default ({
         }}
       >
         <PageContainer
-          styles={{
+          sx={{
             py: 2,
             borderRadius: [0, "lg"],
             width: "auto",

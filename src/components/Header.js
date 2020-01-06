@@ -20,7 +20,7 @@ export const useHeaderMetadata = () =>
     }
   `).site.siteMetadata
 
-export const HeaderContainer = ({ children, styles }) => (
+export const HeaderContainer = ({ children, className }) => (
   <header
     sx={{
       backgroundColor: "primary",
@@ -33,8 +33,8 @@ export const HeaderContainer = ({ children, styles }) => (
       "@media print": {
         display: "none",
       },
-      ...styles,
     }}
+    className={className}
   >
     {children}
   </header>
@@ -86,7 +86,7 @@ export const BigHeader = ({ title, subtitle }) => (
   </HeaderContainer>
 )
 
-export const Logo = ({ text, image, styles }) => {
+export const Logo = ({ text, image, className }) => {
   return (
     <Link
       to="/"
@@ -97,8 +97,8 @@ export const Logo = ({ text, image, styles }) => {
         lineHeight: ["linkMinimum", "normal"],
         minHeight: ["linkMinimum", 0],
         fontWeight: "bold",
-        ...styles,
       }}
+      className={className}
     >
       {text}
     </Link>
@@ -131,7 +131,7 @@ const SiteNav = () => {
       >
         <Logo
           text={title}
-          styles={{
+          sx={{
             textAlign: ["center", "left"],
           }}
         />

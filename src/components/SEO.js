@@ -8,10 +8,6 @@ function QueriedSEO({
   meta = [],
   keywords = [],
   title,
-
-  siteTitle,
-  siteDescription,
-  siteAuthor,
 }) {
   const {
     site: { siteMetadata },

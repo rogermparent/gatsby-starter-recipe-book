@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui"
 
-export const PageBackground = ({ children, styles }) => (
+export const PageBackground = ({ children, className }) => (
   <div
     sx={{
       py: 1,
@@ -12,14 +12,14 @@ export const PageBackground = ({ children, styles }) => (
       flex: "1",
       width: "100%",
       mx: "auto",
-      ...styles,
     }}
+    className={className}
   >
     {children}
   </div>
 )
 
-export const PageContainer = ({ children, styles, maxWidth }) => (
+export const PageContainer = ({ children, className, maxWidth }) => (
   <div
     sx={{
       maxWidth: maxWidth || "maxPageWidth",
@@ -32,16 +32,16 @@ export const PageContainer = ({ children, styles, maxWidth }) => (
       mb: [0, 4],
       p: [0, 2],
       minHeight: "100%",
-      ...styles,
     }}
+    className={className}
   >
     {children}
   </div>
 )
 
-const ContainedPageBackground = ({ children, styles, maxWidth }) => (
+const ContainedPageBackground = ({ children, className, maxWidth }) => (
   <PageContainer maxWidth={maxWidth}>
-    <PageBackground styles={styles}>{children}</PageBackground>
+    <PageBackground className={className}>{children}</PageBackground>
   </PageContainer>
 )
 

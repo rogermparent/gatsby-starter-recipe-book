@@ -1,9 +1,8 @@
-/** @jsx jsx */
-import { jsx } from "theme-ui"
+import React from "react"
 import { graphql } from "gatsby"
+import { PageContainer } from "../components/PageContainer"
 import { BigHeader } from "../components/Header"
 import Layout from "../components/Layout"
-import { PageContainer } from "../components/PageContainer"
 import PostList from "../components/PostList"
 import capitalize from "../utils/capitalize"
 
@@ -13,9 +12,12 @@ const CollectionPage = ({ data: { collection, collectionEntries } }) => {
     collectionEntries.totalCount === 1 ? "y" : "ies"
   }.`
   return (
-    <Layout title={title} subtitle={subtitle}>
-      <BigHeader title={title} subtitle={subtitle} />
-      <PageContainer>
+    <Layout
+      title={title}
+      subtitle={subtitle}
+      header={<BigHeader title={title} subtitle={subtitle} />}
+    >
+      <PageContainer sx={{ maxWidth: "maxPageWidth" }}>
         <PostList nodes={collectionEntries.nodes} />
       </PageContainer>
     </Layout>

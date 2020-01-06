@@ -12,6 +12,17 @@ const theme = {
     primary: "#111",
     secondary: "#EEE",
   },
+  layout: {
+    ...BaseTheme.layout,
+    main: {
+      ...BaseTheme.layout.main,
+      py: 0,
+      my: 0,
+      mx: "auto",
+      display: "flex",
+      flexFlow: "column nowrap",
+    },
+  },
   styles: {
     ...BaseTheme.styles,
     NavLink: {

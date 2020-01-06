@@ -8,9 +8,8 @@ import PageContainer from "../components/PageContainer"
 
 export default ({ data }) => {
   return (
-    <Layout title={data.contentPage.frontmatter.title}>
-      <HomeHeader />
-      <PageContainer maxWidth="maxContentWidth">
+    <Layout title={data.contentPage.frontmatter.title} header={<HomeHeader />}>
+      <PageContainer sx={{ maxWidth: "maxContentWidth" }}>
         <MDXRenderer>{data.contentPage.parent.body}</MDXRenderer>
       </PageContainer>
     </Layout>

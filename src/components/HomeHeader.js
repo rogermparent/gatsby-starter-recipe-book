@@ -14,7 +14,7 @@ const HomeHeader = () => {
         }}
       >
         <Logo
-          styles={{
+          sx={{
             p: 1,
             fontSize: [6, 7],
           }}

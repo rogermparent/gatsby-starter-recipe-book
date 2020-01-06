@@ -1,22 +1,39 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui"
-import Footer from "./Footer"
 import SEO from "./SEO"
 
-import BaseLayout from "./base-layout"
+import Layout from "gatsby-theme-platinum/src/components/layout.js"
 
-const NewBaseLayout = ({ children, title, subtitle }) => {
+const LayoutWithSEO = ({
+  children,
+  description,
+  lang,
+  meta,
+  keywords,
+  title,
+  subtitle,
+  className,
+  ...rest
+}) => {
   return (
-    <BaseLayout
-      styles={{
+    <Layout
+      sx={{
         backgroundColor: "secondary",
+        display: "flex",
       }}
+      className={className}
+      {...rest}
     >
-      <SEO title={title} />
+      <SEO
+        description={description}
+        lang={lang}
+        meta={meta}
+        keywords={keywords}
+        title={title}
+      />
       {children}
-      <Footer />
-    </BaseLayout>
+    </Layout>
   )
 }
 
-export default NewBaseLayout
+export default LayoutWithSEO

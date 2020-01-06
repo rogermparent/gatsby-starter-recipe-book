@@ -22,8 +22,11 @@ export default ({
     totalCount === 1 ? "y" : "ies"
   }.`
   return (
-    <Layout title={title} subtitle={subtitle}>
-      <BigHeader title={capitalize(title)} subtitle={subtitle} />
+    <Layout
+      title={title}
+      subtitle={subtitle}
+      header={<BigHeader title={capitalize(title)} subtitle={subtitle} />}
+    >
       <PageContainer>
         <PostList nodes={nodes} />
       </PageContainer>

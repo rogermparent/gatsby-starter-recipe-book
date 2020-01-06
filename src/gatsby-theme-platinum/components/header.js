@@ -1,2 +1,1 @@
-import { SmallHeader } from "../../components/Header"
-export default SmallHeader
+export { SmallHeader as default } from "../../components/Header.js"

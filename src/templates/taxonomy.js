@@ -8,7 +8,7 @@ import PageContainer from "../components/PageContainer"
 import pluralize from "../utils/pluralize"
 import { roundedBoxStyle } from "../components/RoundedBox"
 
-const FilterInput = ({ styles, currentFilter, entryCount, onFilter }) => {
+const FilterInput = ({ currentFilter, entryCount, onFilter }) => {
   return (
     <form
       onSubmit={e => {
@@ -81,10 +81,13 @@ export default ({
     : terms.edges
 
   return (
-    <Layout title={label} subtitle={subtitle}>
-      <BigHeader title={label} subtitle={subtitle} />
+    <Layout
+      title={label}
+      subtitle={subtitle}
+      header={<BigHeader title={label} subtitle={subtitle} />}
+    >
       <PageContainer
-        styles={{
+        sx={{
           p: 3,
           maxWidth: "maxContentWidth",
         }}
