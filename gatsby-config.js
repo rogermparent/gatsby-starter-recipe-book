@@ -121,8 +121,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-theme-platinum-demo`,
-        short_name: `platinum`,
+        name: `Gatsby starter: Recipe Book`,
+        short_name: `Recipe Book`,
         start_url: `/`,
         background_color: `#ffffff`,
         theme_color: `#cccccc`,
