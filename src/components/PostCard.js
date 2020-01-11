@@ -23,6 +23,7 @@ const PostCard = ({ link, fluidImage, title, description }) => {
       {fluidImage && (
         <Link
           to={link}
+          aria-label={title}
           sx={{
             display: "block",
             width: "100%",
